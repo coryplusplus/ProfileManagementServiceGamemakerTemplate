@@ -1,5 +1,5 @@
 global.character_map = ds_list_create();
-global.characters = 4;
+global.characters = 8;
 for(var i = 1; i <= global.characters;i++)
 {
     var char = ds_map_create()

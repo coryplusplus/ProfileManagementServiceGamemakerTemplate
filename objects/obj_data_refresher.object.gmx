@@ -25,21 +25,15 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var url = "http://api.develop.cloudconfidant.com/profileManagementService/webapi/v1/profiles";
-var method = "GET";
-var headers = ds_map_create();
-ds_map_add(headers,"Content-Type","application/json");
-ds_map_add(headers,"Authorization","Bearer " + global.bearerToken);
-
-profileRequest = httpRequest(url,method,headers,"")
-encourageRequest = noone
-global.encouragements = ds_list_create()
-scr_create_character_map()
+            <string>alarm[0] = 600
+refreshEncourageRequest = ""
 
 </string>
           </argument>
         </arguments>
       </action>
+    </event>
+    <event eventtype="2" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -56,15 +50,17 @@ scr_create_character_map()
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Create global variables
-///Create global variables
-global.player = 0;
-global.characterList = ds_list_create();
-global.saveItemCount = 0;
-global.poop_count = 0;
-global.display_how_to_read_signs = false;
-global.jumping = false
-global.attacking = false
+            <string>var url = "http://api.develop.cloudconfidant.com/profileManagementService/webapi/v1/profiles";
+var method = "GET";
+var headers = ds_map_create();
+ds_map_add(headers,"Content-Type","application/json");
+ds_map_add(headers,"Authorization","Bearer " + global.bearerToken);
+
+refreshProfileRequest = httpRequest(url,method,headers,"")
+
+
+alarm[0]  = 600
+
 </string>
           </argument>
         </arguments>
@@ -87,7 +83,8 @@ global.attacking = false
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(ds_map_find_value(async_load,"id") == profileRequest)
+            <string>///Refresh Data
+if(ds_map_find_value(async_load,"id") == refreshProfileRequest)
 {
     var resultMap = parseResponse(async_load)
     values = ds_list_create()
@@ -100,11 +97,12 @@ global.attacking = false
     if(profileCount &gt; 0)
     {
         profile = ds_list_find_value(global.result,currentProfile)
-        encourageRequest = getEncouragementRequests(ds_map_find_value(profile,"profileName"))
+        refreshEncourageRequest = getEncouragementRequests(ds_map_find_value(profile,"profileName"))
     }
+    ds_map_clear(resultMap)
 
 }
-if(ds_map_find_value(async_load,"id") == encourageRequest)
+if(ds_map_find_value(async_load,"id") == refreshEncourageRequest)
 {
     var encourageResult = parseResponse(async_load)
     var response = parseValue(encourageResult,"message")
@@ -118,10 +116,23 @@ if(ds_map_find_value(async_load,"id") == encourageRequest)
         var responseSize = ds_list_size(response);
         for(var i = 0; i &lt; responseSize ; i++)
         {
-            message = ds_list_find_value(response,i)
-            ds_list_add(global.encouragements,message)
-            ds_list_add(global.messageIds,ds_map_find_value(message,"id"))
-
+             message = ds_list_find_value(response,i)
+            //only add if currently does not exist
+            if(ds_list_find_index(global.messageIds, ds_map_find_value(message,"id")) == -1)
+            {
+                
+                ds_list_add(global.encouragements,message)
+                ds_list_add(global.messageIds,ds_map_find_value(message,"id"))
+                random_x = 20 + irandom(7000)
+                random_y = 200 + irandom(1500)
+                instance = instance_create(random_x, random_y, obj_person)
+                with(instance)
+                {
+                    encouragement = ds_list_find_value(response, i)
+                    display_text = ds_map_find_value(encouragement,"message")
+                }
+            }
+            
         }
 
 
@@ -132,15 +143,14 @@ if(ds_map_find_value(async_load,"id") == encourageRequest)
     {
         currentProfile = currentProfile + 1
         profile = ds_list_find_value(global.result,currentProfile)
-        encourageRequest = getEncouragementRequests(ds_map_find_value(profile,"profileName"))
+        refreshEncourageRequest = getEncouragementRequests(ds_map_find_value(profile,"profileName"))
         
     }
-    else
-    {
-        room_goto(rm_0)
-    }
-}
+    
+    ds_map_clear(encourageResult)
+    ds_list_clear(response)
 
+}
 </string>
           </argument>
         </arguments>

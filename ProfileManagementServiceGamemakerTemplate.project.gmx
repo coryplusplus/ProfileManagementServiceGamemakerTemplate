@@ -44,6 +44,30 @@
         <sprite>sprites\spr_char_4_down</sprite>
         <sprite>sprites\spr_char_4_up</sprite>
       </sprites>
+      <sprites name="char 5">
+        <sprite>sprites\spr_char_5_idle</sprite>
+        <sprite>sprites\spr_char_5_walk</sprite>
+        <sprite>sprites\spr_char_5_down</sprite>
+        <sprite>sprites\spr_char_5_up</sprite>
+      </sprites>
+      <sprites name="char 6">
+        <sprite>sprites\spr_char_6_up</sprite>
+        <sprite>sprites\spr_char_6_walk</sprite>
+        <sprite>sprites\spr_char_6_down</sprite>
+        <sprite>sprites\spr_char_6_idle</sprite>
+      </sprites>
+      <sprites name="char 7">
+        <sprite>sprites\spr_char_7_up</sprite>
+        <sprite>sprites\spr_char_7_walk</sprite>
+        <sprite>sprites\spr_char_7_down</sprite>
+        <sprite>sprites\spr_char_7_idle</sprite>
+      </sprites>
+      <sprites name="char 8">
+        <sprite>sprites\spr_char_8_up</sprite>
+        <sprite>sprites\spr_char_8_walk</sprite>
+        <sprite>sprites\spr_char_8_down</sprite>
+        <sprite>sprites\spr_char_8_idle</sprite>
+      </sprites>
     </sprites>
     <sprite>sprites\spr_ui</sprite>
   </sprites>
@@ -115,6 +139,7 @@
       <object>objects\obj_rest_controller</object>
       <object>objects\obj_ui_controller</object>
       <object>objects\obj_global_controller</object>
+      <object>objects\obj_data_refresher</object>
     </objects>
     <objects name="UI">
       <object>objects\ui_defaults</object>

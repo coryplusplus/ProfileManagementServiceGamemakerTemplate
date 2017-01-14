@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>global.playerX = 100
 global.playerY = 200
+global.messageIds = ds_list_create()
 </string>
           </argument>
         </arguments>

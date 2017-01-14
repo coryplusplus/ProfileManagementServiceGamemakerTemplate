@@ -28,7 +28,9 @@
             <string>var count = ds_list_size(global.encouragements)
 for(var i = 0; i &lt; count; i++)
 {
-    instance = instance_create((i + 1) * 1500, 200, obj_person)
+    random_x = 20 + irandom(7000)
+    random_y = 200 + irandom(1500)
+    instance = instance_create(random_x, random_y, obj_person)
     with(instance)
     {
         encouragement = ds_list_find_value(global.encouragements,i)
